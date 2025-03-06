@@ -8,7 +8,7 @@ import io
 import gradio as gr
 from groq import Groq
 from PIL import Image
-
+import pygame
 
 load_dotenv()
 
@@ -32,6 +32,10 @@ reddit = praw.Reddit(
     password=password,
     user_agent=user_agent
 )
+
+# init pygame mixer
+pygame.mixer.init()
+notification_sound = pygame.mixer.Sound("notification.wav")
 
 
 def encode_image(image_path):
@@ -115,6 +119,11 @@ def process_new_posts():
         query = 'flair' # replace this <------
         for post in subreddit.search(query, sort="new", limit=1): 
             if post.id not in seen_posts:
+
+                
+                notification_sound.play()
+
+                
                 seen_posts.add(post.id) 
                 print(f"\nTitle: {post.title}")
                 print(f"Posted by: u/{post.author.name}")
