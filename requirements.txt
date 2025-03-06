@@ -1,0 +1,6 @@
+praw
+requests
+python-dotenv
+gradio
+groq
+pygame
