@@ -7,6 +7,8 @@ Script that gives more accurate and timely notifications for select subretting (
 1. Clone the repository:
    ```bash
    git clone https://github.com/anakin004/better_reddit_notifications.git
+   cd better_reddit_notifications
+   pip install -r requirements.txt
 
 1. Get an API key from [Groq](https://groq.com/).
 2. Get an API key from [Reddit](https://www.reddit.com/prefs/apps).
