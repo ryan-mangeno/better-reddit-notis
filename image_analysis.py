@@ -19,8 +19,8 @@ def analyze_image_text(image_path):
     """analyzes image text from tesseract"""
 
     
-    prompt = "" # prompt to be chosen
- 
+    prompt = "" # enter your prompt here
+
 
     image = Image.open(image_path)
     text = pytesseract.image_to_string(image)
@@ -41,7 +41,7 @@ def analyze_image_text(image_path):
 
 def analyze_post_text(text):
 
-    prompt = "" # prompt to be chosen
+    prompt = "" # enter your prompt here
 
     messages = [
         {"role": "user", "content": prompt + " " + text}, 
@@ -62,5 +62,6 @@ def process_post(image, text):
         return analyze_image_text(image)
     if text:
         return analyze_post_text(text)
+    
     
     
