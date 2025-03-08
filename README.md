@@ -1,6 +1,6 @@
 # Better Reddit Notifications
 
-Script that gives more accurate and timely notifications for select subretting ( and flair for now )
+Script that gives more accurate and timely notifications for select subreddit ( and flair for now )
 
 
 ## Installation
