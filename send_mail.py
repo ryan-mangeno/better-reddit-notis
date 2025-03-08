@@ -33,5 +33,3 @@ def send_email(subject, body, image_path=None):
     with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
         server.login(sender_email, app_password)
         server.send_message(msg)
-
-    print("Email sent successfully!")
