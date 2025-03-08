@@ -4,3 +4,5 @@ python-dotenv
 gradio
 groq
 pygame
+pytesseract
+tesseract
