@@ -3,28 +3,22 @@ import os
 import requests
 from dotenv import load_dotenv
 import time
-import base64
-import io
-import gradio as gr
-from groq import Groq
-from PIL import Image
 import pygame
+
+# for send_mail function
+from send_mail import send_email
+
 
 load_dotenv()
 
 client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
-username = os.getenv("USERNAME")
-password = os.getenv("PASSWORD")
+username = os.getenv("REDDIT_USERNAME")
+password = os.getenv("REDDIT_PASSWORD")
 user_agent = os.getenv("USER_AGENT")
 
-groq_api_key =  os.getenv("GROQ_KEY")
-groq_url = "https://groqapi.com/v1/ocr"  
 
-client = Groq(
-    api_key= groq_api_key,
-)
-
+# Initialize Reddit API
 reddit = praw.Reddit(
     client_id=client_id,
     client_secret=client_secret,
@@ -33,47 +27,13 @@ reddit = praw.Reddit(
     user_agent=user_agent
 )
 
+
+# playing notification sound is optional
+
 # init pygame mixer
 pygame.mixer.init()
 notification_sound = pygame.mixer.Sound("notification.wav")
 
-
-def encode_image(image_path):
-    """Encodes an image into base64 format after resizing"""
-    max_size = 512  
-    image = Image.open(image_path)
-    image.thumbnail((max_size, max_size)) 
-    
-    buffered = io.BytesIO()
-    image.save(buffered, format="JPEG")
-    return base64.b64encode(buffered.getvalue()).decode('utf-8')
-
-def analyze_image(image_path, prompt, is_url=False):
-    """Sends the image to Groq API for analysis, either from URL or local file"""
-
-    if is_url:
-        image_content = {"type": "image_url", "image_url": image_path}
-    else:
-        base64_image = encode_image(image_path)
-        image_content = {"type": "image_url", "image_url": f"data:image/jpeg;base64,{base64_image}"}  
-
-    messages = [
-        {"role": "user", "content": prompt}, 
-        {"role": "user", "content": f"data:image/jpeg;base64,{base64_image}"}
-    ]
-
-    chat_completion = client.chat.completions.create(
-        model="llama-3.1-8b-instant",  
-        messages=messages  
-    )
-
-    print(chat_completion)
-
-
-def process_image(image, prompt):
-    if image is not None:
-        return analyze_image(image, prompt)
-    
 
 def download_image(image_url, save_path):
     try:
@@ -109,21 +69,18 @@ def download_image(image_url, save_path):
 def process_new_posts():
 
     post_count = 0
+
     seen_posts = set()
-    subreddit = reddit.subreddit("Something") # replace this <----
-  
-    # you also dont need to search with a query, you can also just search the subreddit
-  
+    subreddit = reddit.subreddit("") # add a subreddit 
+
     while True:
         remaining_requests = reddit.auth.limits['remaining']
-        query = 'flair' # replace this <------
+        query = '' # change this
         for post in subreddit.search(query, sort="new", limit=1): 
             if post.id not in seen_posts:
 
-                
                 notification_sound.play()
 
-                
                 seen_posts.add(post.id) 
                 print(f"\nTitle: {post.title}")
                 print(f"Posted by: u/{post.author.name}")
@@ -139,14 +96,16 @@ def process_new_posts():
                     image_url = post.url
                     
                     download_image(image_url, save_path)
+                    send_email('','', save_path)
 
                     #analyze_image(save_path, "find promo codes on the image") # to work on
                     
                 else:
-                    print("No image found in this post.")
+                    # you can put whatever you want here
+                    send_email('', '')
         
-        if remaining_requests == 100 or remaining_requests == 10
-            print(f"Remaining requests: {remaining_requests}")
-        time.sleep(1)  # 1000 api calls available per 10 mins, i am doing 600 per 10 mins
+        time.sleep(1)  
 
 process_new_posts()
+
+
