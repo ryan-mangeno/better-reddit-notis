@@ -13,6 +13,8 @@ Script that gives more accurate and timely notifications for select subreddit ( 
 1. Get an API key from [Groq](https://groq.com/).
 2. Get an API key from [Reddit](https://www.reddit.com/prefs/apps).
 3. Download [Tesseract](https://github.com/UB-Mannheim/tesseract/wiki). and add it to system path.
+4. Replace subreddit and queries in reddit_oauth.py
+5. Optional: You can remove image analyzing, if you want to keep it, replace the prompts in image_analysis.py.
 
 
 Note -> The groq image analysis is not necessary, its just specific to determining text on a post with a photo.
