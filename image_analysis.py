@@ -3,10 +3,9 @@ import io
 import gradio as gr
 from groq import Groq
 from PIL import Image
+import pytesseract
 import os
 
-
-# work in progress
 
 groq_api_key =  os.getenv("GROQ_KEY")
 groq_url = "https://groqapi.com/v1/ocr"  
@@ -16,29 +15,19 @@ client = Groq(
 )
 
 
+def analyze_image_text(image_path):
+    """analyzes image text from tesseract"""
 
-def encode_image(image_path):
-    """Encodes an image into base64 format after resizing"""
-    max_size = 512  
-    image = Image.open(image_path)
-    image.thumbnail((max_size, max_size)) 
     
-    buffered = io.BytesIO()
-    image.save(buffered, format="JPEG")
-    return base64.b64encode(buffered.getvalue()).decode('utf-8')
+    prompt = "" # prompt to be chosen
+ 
 
-def analyze_image(image_path, prompt, is_url=False):
-    """Sends the image to Groq API for analysis, either from URL or local file"""
+    image = Image.open(image_path)
+    text = pytesseract.image_to_string(image)
 
-    if is_url:
-        image_content = {"type": "image_url", "image_url": image_path}
-    else:
-        base64_image = encode_image(image_path)
-        image_content = {"type": "image_url", "image_url": f"data:image/jpeg;base64,{base64_image}"}  
 
     messages = [
-        {"role": "user", "content": prompt}, 
-        {"role": "user", "content": f"data:image/jpeg;base64,{base64_image}"}
+        {"role": "user", "content": prompt + " " + text}, 
     ]
 
     chat_completion = client.chat.completions.create(
@@ -46,10 +35,32 @@ def analyze_image(image_path, prompt, is_url=False):
         messages=messages  
     )
 
-    print(chat_completion)
+    return chat_completion.choices[0].message.content
 
 
-def process_image(image, prompt):
-    if image is not None:
-        return analyze_image(image, prompt)
+
+def analyze_post_text(text):
+
+    prompt = "" # prompt to be chosen
+
+    messages = [
+        {"role": "user", "content": prompt + " " + text}, 
+    ]
+
+
+    chat_completion = client.chat.completions.create(
+        model="llama-3.1-8b-instant",  
+        messages=messages  
+    )
+
+    return chat_completion.choices[0].message.content
+
+
+
+def process_post(image, text):
+    if image:
+        return analyze_image_text(image)
+    if text:
+        return analyze_post_text(text)
+    
     
