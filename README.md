@@ -12,7 +12,7 @@ Script that gives more accurate and timely notifications for select subreddit ( 
 
 1. Get an API key from [Groq](https://groq.com/).
 2. Get an API key from [Reddit](https://www.reddit.com/prefs/apps).
-3. Download [Tesseract]([https://www.reddit.com/prefs/app](https://github.com/UB-Mannheim/tesseract/wiki)s). and add it to system path.
+3. Download [Tesseract](https://www.reddit.com/prefs/app](https://github.com/UB-Mannheim/tesseract/wiki)). and add it to system path.
 
 
 Note -> The groq image analysis is not necessary, its just specific to determining text on a post with a photo.
