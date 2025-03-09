@@ -78,53 +78,56 @@ def process_new_posts():
         query = '' # to be chosen
 
         # if you change limit you will need to change the sleep time, 1000 requests refreshed every 10 minutes
-        for post in subreddit.search(query, sort="new", limit=1):
-            if post.id not in seen_posts:
-                seen_posts.add(post.id)
-                
+        for post in subreddit.new(limit=1):
 
-                image_urls = []
+            if post.link_flair_text == query:
                 
-                #  gallery posts
-                if hasattr(post, 'is_gallery') and post.is_gallery:
-                    if hasattr(post, 'media_metadata'):
-                        for item_id in post.media_metadata:
-                            image_data = post.media_metadata[item_id]
-                            if image_data['e'] == 'Image':
-                                if 's' in image_data and 'u' in image_data['s']:
-                                    image_url = image_data['s']['u']
-                                    image_urls.append(image_url)
-                
-                #  single image posts
-                elif hasattr(post, 'preview') and 'images' in post.preview:
-                    for image in post.preview['images']:
-                        if 'source' in image:
-                            image_urls.append(image['source']['url'])
-                
-                # fallback to the standard url
-                elif hasattr(post, 'url'):
-                    url = post.url
-                    if url.endswith(('.jpg', '.jpeg', '.png')):
-                        image_urls.append(url)
-                
-
-                for image_url in image_urls:
-                    # fixing the URL encoding (Reddit URLs are sometimes double-encoded)
-                    image_url = image_url.replace('&amp;', '&')
+                if post.id not in seen_posts:
+                    seen_posts.add(post.id)
                     
-                    post_count += 1
-                    save_path = os.path.join(os.getcwd(), f"downloaded_image_{post.id}_{post_count}.jpeg")
+        
+                    image_urls = []
                     
-                    try:
-                        download_image(image_url, save_path)
-                        email_body = process_post(save_path, None)
-                        send_email('subject', 'body', save_path)
-                    except Exception as e:
-                        print(f"Error processing image {image_url}: {e}")
-
-                if not image_urls:
-                    email_body = process_post(None, post.selftext)
-                    send_email('subject', f'Code: {email_body}')
+                    #  gallery posts
+                    if hasattr(post, 'is_gallery') and post.is_gallery:
+                        if hasattr(post, 'media_metadata'):
+                            for item_id in post.media_metadata:
+                                image_data = post.media_metadata[item_id]
+                                if image_data['e'] == 'Image':
+                                    if 's' in image_data and 'u' in image_data['s']:
+                                        image_url = image_data['s']['u']
+                                        image_urls.append(image_url)
+                    
+                    #  single image posts
+                    elif hasattr(post, 'preview') and 'images' in post.preview:
+                        for image in post.preview['images']:
+                            if 'source' in image:
+                                image_urls.append(image['source']['url'])
+                    
+                    # fallback to the standard url
+                    elif hasattr(post, 'url'):
+                        url = post.url
+                        if url.endswith(('.jpg', '.jpeg', '.png')):
+                            image_urls.append(url)
+                    
+        
+                    for image_url in image_urls:
+                        # fixing the URL encoding (Reddit URLs are sometimes double-encoded)
+                        image_url = image_url.replace('&amp;', '&')
+                        
+                        post_count += 1
+                        save_path = os.path.join(os.getcwd(), f"downloaded_image_{post.id}_{post_count}.jpeg")
+                        
+                        try:
+                            download_image(image_url, save_path)
+                            email_body = process_post(save_path, None)
+                            send_email('subject', 'body', save_path)
+                        except Exception as e:
+                            print(f"Error processing image {image_url}: {e}")
+        
+                    if not image_urls:
+                        email_body = process_post(None, post.selftext)
+                        send_email('subject', f'Code: {email_body}')
                 
         time.sleep(1)
 
