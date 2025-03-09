@@ -77,7 +77,7 @@ def process_new_posts():
     while True:
         query = '' # to be chosen
 
-        # if you change limit you will need to change the sleep time, 1000 requests refreshed every 10 mins
+        # if you change limit you will need to change the sleep time, 1000 requests refreshed every 10 minutes
         for post in subreddit.search(query, sort="new", limit=1):
             if post.id not in seen_posts:
                 seen_posts.add(post.id)
