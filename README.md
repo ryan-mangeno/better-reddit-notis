@@ -2,7 +2,6 @@
 
 Script that gives more accurate and timely notifications for select subreddit ( and flair for now )
 
-
 ## Installation
 ```bash
 # clone repo
