@@ -116,7 +116,7 @@ def process_new_posts():
                         image_url = image_url.replace('&amp;', '&')
                         
                         post_count += 1
-                        save_path = os.path.join(os.getcwd(), f"downloaded_image_{post.id}_{post_count}.jpeg")
+                        save_path = os.path.join(os.getcwd(), f"downloaded_image_{post_count}.jpeg")
                         
                         try:
                             download_image(image_url, save_path)
