@@ -25,9 +25,9 @@ pip install -r requirements.txt
 
 # Run the script in the background
 # For Linux/macOS
-nohup python your_script_name.py &
+nohup python main.py &
 # For Windows 
-start python your_script_name.py
+start python main.py
 ```
 
 1. Get an API key from [Reddit](https://www.reddit.com/prefs/apps).
