@@ -37,4 +37,5 @@ start python main.py
 5. Optional: if you decide to use groq image analysis for a more tailored notification, replace the prompts in image_analysis.py, its there to give more information about a post if it has a image. Get an API key from [Groq](https://groq.com/) if you decide to do this.
 6. If you don't decide to use groq, you still need to make .env variabels for them, you can use dummy values.
 
+Note -> The reddit and groq api is subject to change, keep in mind potential rate limiting changes and depreciated models used with groq. Refer to [these current models](https://console.groq.com/docs/models)
 
