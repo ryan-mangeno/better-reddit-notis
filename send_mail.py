@@ -4,16 +4,16 @@ from email.message import EmailMessage
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+sender_email = os.getenv("SENDER_EMAIL")
+receiver_email = os.getenv("RECV_EMAIL")
+app_password = os.getenv("GOOGLE_APP_PASSWORD")
+
 
 def send_email(subject, body, image_path=None):
   """
      sends a notification to an email, I am sending an email to msyelf from one email to another
      google uses app passwords to get past 2fa 
   """
-    sender_email = os.getenv("SENDER_EMAIL")
-    receiver_email = os.getenv("RECV_EMAIL")
-    app_password = os.getenv("GOOGLE_APP_PASSWORD")
 
     msg = EmailMessage()
     msg.set_content(body)
