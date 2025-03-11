@@ -22,20 +22,19 @@ venv\Scripts\activate
 # install reqs
 pip install -r requirements.txt
 
+# Go through steps 1-5 below
+
 # Run the script in the background
 # For Linux/macOS
 nohup python main.py &
 # For Windows 
 start python main.py
 ```
+1. Create a .env for environment variables for reddit api, chosen email service, groq, etc. These will be found at the top of each source file.
+2. Get an API key from [Reddit](https://www.reddit.com/prefs/apps).
+3. Download [Tesseract](https://github.com/UB-Mannheim/tesseract/wiki). and add it to system path.
+4. Replace subreddit and queries in main.py
+5. Optional: if you decide to use groq image analysis for a more tailored notification, replace the prompts in image_analysis.py, its there to give more information about a post if it has a image
+5. Cont.. Get an API key from [Groq](https://groq.com/).
 
-1. Get an API key from [Reddit](https://www.reddit.com/prefs/apps).
-2. Download [Tesseract](https://github.com/UB-Mannheim/tesseract/wiki). and add it to system path.
-3. Replace subreddit and queries in main.py
-4. Optional: if you decide to use groq image analysis for a more tailored notification, replace the prompts in image_analysis.py, its there to give more information about a post if it has a image
-4. Cont.. Get an API key from [Groq](https://groq.com/).
-5. 
-
-Once you have the keys, create a `.env` file in the project root
-Any variable loaded from dotenv needs to be in the .env file
 
