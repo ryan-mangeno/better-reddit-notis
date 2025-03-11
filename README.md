@@ -14,11 +14,7 @@ Script that gives more accurate and timely notifications for select subreddit ( 
 2. Get an API key from [Reddit](https://www.reddit.com/prefs/apps).
 3. Download [Tesseract](https://github.com/UB-Mannheim/tesseract/wiki). and add it to system path.
 4. Replace subreddit and queries in main.py
-5. Optional: You can remove image analyzing, if you want to keep it, replace the prompts in image_analysis.py.
-
-
-Note -> The groq image analysis is not necessary, its just specific to determining text on a post with a photo.
-You can also change the limit when searching to search more posts
+5. Optional: if you decide to use groq image analysis for a more tailored notification, replace the prompts in image_analysis.py, its there to give more information about a post if it has a image
 
 Once you have the keys, create a `.env` file in the project root
 Any variable loaded from dotenv needs to be in the .env file
