@@ -31,9 +31,8 @@ reddit = praw.Reddit(
     user_agent=user_agent
 )
 
-# not necessary
+# if you are running locally
 
-# init pygame mixer
 #pygame.mixer.init()
 #notification_sound = pygame.mixer.Sound("notification.wav")
 
