@@ -31,8 +31,13 @@ def analyze_image_text(image_path):
     ]
 
     chat_completion = client.chat.completions.create(
-        model="llama3-70b-8192",  
-        messages=messages  
+        model="meta-llama/llama-4-scout-17b-16e-instruct",
+        messages=messages
+        temperature=1,
+        max_completion_tokens=1024,
+        top_p=1,
+        stream=True,
+        stop=None,
     )
 
     return chat_completion.choices[0].message.content
@@ -49,7 +54,7 @@ def analyze_post_text(text):
 
 
     chat_completion = client.chat.completions.create(
-        model="llama3-70b-8192",  
+        model="llama3-8b-8192",
         messages=messages  
     )
 
