@@ -27,13 +27,14 @@ def analyze_image_text(image_path):
 
 
     messages = [
+        {"role": "system", "content": "you are a helpful assistant in analyzing text on and image"},
         {"role": "user", "content": prompt + " " + text}, 
     ]
 
     chat_completion = client.chat.completions.create(
         model="meta-llama/llama-4-scout-17b-16e-instruct",
-        messages=messages
-        temperature=1,
+        messages=messages,
+        temperature=0.5,
         max_completion_tokens=1024,
         top_p=1,
         stream=True,

@@ -10,11 +10,7 @@ app_password = os.getenv("GOOGLE_APP_PASSWORD")
 
 
 def send_email(subject, body, image_path=None):
-  """
-     sends a notification to an email, I am sending an email to msyelf from one email to another
-     google uses app passwords to get past 2fa 
-  """
-
+    
     msg = EmailMessage()
     msg.set_content(body)
     msg["Subject"] = subject
