@@ -26,9 +26,9 @@ pip install -r requirements.txt
 
 # Run the script in the background
 # For Linux/macOS
-nohup python main.py &
+nohup python src/main.py &
 # For Windows 
-start python main.py
+start python src/main.py
 ```
 1. Create a .env for environment variables for reddit api, chosen email service, groq, etc. These will be found at the top of each source file.
 2. Get an API key from [Reddit](https://www.reddit.com/prefs/apps).

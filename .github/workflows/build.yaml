@@ -1,0 +1,43 @@
+name: Build and Test Script
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Create virtual environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          python -m pip install --upgrade pip
+
+      - name: Install dependencies
+        run: |
+          source venv/bin/activate
+          pip install -r requirements.txt
+
+      - name: Run script test
+        run: |
+          source venv/bin/activate
+          # Run in background, wait, then kill to verify it launches
+          python src/main.py &
+          PID=$!
+          echo "Started main.py with PID $PID"
+          sleep 10
+          kill $PID
+          echo "Successfully started and stopped main.py"
+
+

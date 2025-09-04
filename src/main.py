@@ -3,7 +3,6 @@ import os
 import requests
 from dotenv import load_dotenv
 import time
-import pygame
 
 
 # for send_mail function
@@ -30,12 +29,6 @@ reddit = praw.Reddit(
     password=password,
     user_agent=user_agent
 )
-
-# if you are running locally
-
-#pygame.mixer.init()
-#notification_sound = pygame.mixer.Sound("notification.wav")
-
 
 def download_image(image_url, save_path):
     try:
